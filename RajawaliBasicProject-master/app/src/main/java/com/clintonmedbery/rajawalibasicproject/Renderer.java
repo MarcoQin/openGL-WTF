@@ -2,6 +2,7 @@ package com.clintonmedbery.rajawalibasicproject;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.opengl.GLES20;
 import android.os.Debug;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -109,27 +110,33 @@ public class Renderer extends RajawaliRenderer {
         float t_x = -2.5f;
         float t_y = -1.0f;
 
-        for (int i = 0; i< 50;i++) {
-            Cube t_cube = new Cube(0.3f);
-            t_cube.setX(t_x);
-            t_cube.setY(t_y);
+//        for (int i = 0; i< 50;i++) {
+//            Cube t_cube = new Cube(0.3f);
+//            t_cube.setX(t_x);
+//            t_cube.setY(t_y);
+//
+//            if (t_x > 2.5f) {
+//                t_x = - 2.5f;
+//                t_y += 0.6f;
+//            } else {
+//                t_x += 0.6f;
+//            }
+//
+//            t_cube.setMaterial(material);
+////        cube.setColor(Color.rgb(255, 255, 255));
+//            getCurrentScene().addChild(t_cube);
+//
+//            t_cube.rotate(Vector3.Axis.Y, 45.0);
+//            t_cube.rotate(Vector3.Axis.X, -45);
+//
+//            cubeArray[i] = t_cube;
+//        }
 
-            if (t_x > 2.5f) {
-                t_x = - 2.5f;
-                t_y += 0.6f;
-            } else {
-                t_x += 0.6f;
-            }
-
-            t_cube.setMaterial(material);
-//        cube.setColor(Color.rgb(255, 255, 255));
-            getCurrentScene().addChild(t_cube);
-
-            t_cube.rotate(Vector3.Axis.Y, 45.0);
-            t_cube.rotate(Vector3.Axis.X, -45);
-
-            cubeArray[i] = t_cube;
-        }
+        Cube c = new Cube(1f);
+        c.setMaterial(material);
+        getCurrentScene().addChild(c);
+        c.rotate(Vector3.Axis.Y, 45.0f);
+        c.rotate(Vector3.Axis.X, -45);
 //        cube = new Cube(0.5f);
 //        cube.setMaterial(material);
 ////        cube.setColor(Color.rgb(255, 255, 255));
@@ -142,7 +149,10 @@ public class Renderer extends RajawaliRenderer {
 
     @Override
      public void onRender(final long elapsedTime, final double deltaTime) {
+        GLES20.glDisable(GLES20.GL_POLYGON_OFFSET_FILL);
         super.onRender(elapsedTime, deltaTime);
+        GLES20.glEnable(GLES20.GL_POLYGON_OFFSET_FILL);
+        GLES20.glPolygonOffset(1.0f, 1.0f);
 
         for ( Cube t : cubeArray) {
 //            t.rotate(Vector3.Axis.Y, 1.0);

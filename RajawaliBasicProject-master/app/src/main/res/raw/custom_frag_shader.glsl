@@ -15,13 +15,13 @@ void main() {
         float x = min(vTextureCoord.s, 1.0 - vTextureCoord.s);
         float y = min(vTextureCoord.t, 1.0 - vTextureCoord.t);
 
-        if (x < 0.03) {
+        if (x < 0.01) {
             newColor.g = 1.0;
             newColor.r = 1.0;
             newColor.b = 1.0;
         }
 
-        if (y < 0.03) {
+        if (y < 0.01) {
             newColor.g = 1.0;
             newColor.r = 1.0;
             newColor.b = 1.0;
