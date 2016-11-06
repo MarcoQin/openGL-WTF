@@ -105,7 +105,7 @@ public class Renderer extends RajawaliRenderer {
 
         Line3D line = new Line3D(points, 1, color_tt);
         line.setMaterial(material);
-        getCurrentScene().addChild(line);
+//        getCurrentScene().addChild(line);
 
         float t_x = -2.5f;
         float t_y = -1.0f;
@@ -132,11 +132,11 @@ public class Renderer extends RajawaliRenderer {
 //            cubeArray[i] = t_cube;
 //        }
 
-        Cube c = new Cube(1f);
-        c.setMaterial(material);
-        getCurrentScene().addChild(c);
-        c.rotate(Vector3.Axis.Y, 45.0f);
-        c.rotate(Vector3.Axis.X, -45);
+        cube = new Cube(0.5f);
+        cube.setMaterial(material);
+        getCurrentScene().addChild(cube);
+        cube.rotate(Vector3.Axis.Y, 45.0f);
+        cube.rotate(Vector3.Axis.X, -45);
 //        cube = new Cube(0.5f);
 //        cube.setMaterial(material);
 ////        cube.setColor(Color.rgb(255, 255, 255));
@@ -149,6 +149,7 @@ public class Renderer extends RajawaliRenderer {
 
     @Override
      public void onRender(final long elapsedTime, final double deltaTime) {
+//        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
         GLES20.glDisable(GLES20.GL_POLYGON_OFFSET_FILL);
         super.onRender(elapsedTime, deltaTime);
         GLES20.glEnable(GLES20.GL_POLYGON_OFFSET_FILL);
@@ -160,23 +161,23 @@ public class Renderer extends RajawaliRenderer {
 //            t.rotate(Vector3.Axis.Z, 1.0);
         }
 //        earthSphere.rotate(Vector3.Axis.Y, 1.0);
-//        cube.rotate(Vector3.Axis.Y, 1.0);
+        cube.rotate(Vector3.Axis.Y, 1.0);
 //        cube.rotate(Vector3.Axis.X, 1.0);
 //        cube.rotate(Vector3.Axis.Z, 1.0);
-//        cube.setScale(scale);
-//        if (scale > 2.0f && isDropping == false) {
-//            scale -= 0.005f;
-//            isDropping = true;
-//        } else if (scale < 1.0f && isDropping == true) {
-//            isDropping = false;
-//            scale = 1.0f;
-//        } else {
-//            if (isDropping) {
-//                scale -= 0.005f;
-//            } else {
-//                scale += 0.005f;
-//            }
-//        }
+        cube.setScale(scale);
+        if (scale > 2.0f && isDropping == false) {
+            scale -= 0.005f;
+            isDropping = true;
+        } else if (scale < 1.0f && isDropping == true) {
+            isDropping = false;
+            scale = 1.0f;
+        } else {
+            if (isDropping) {
+                scale -= 0.005f;
+            } else {
+                scale += 0.005f;
+            }
+        }
     }
 
 
