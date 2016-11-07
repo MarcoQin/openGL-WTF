@@ -16,6 +16,7 @@ import org.rajawali3d.materials.shaders.FragmentShader;
 import org.rajawali3d.materials.shaders.VertexShader;
 import org.rajawali3d.materials.textures.ATexture;
 import org.rajawali3d.materials.textures.Texture;
+import org.rajawali3d.math.Matrix4;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.primitives.Cube;
 import org.rajawali3d.primitives.Line3D;
@@ -43,6 +44,14 @@ public class Renderer extends RajawaliRenderer {
     private Cube[] cubeArray = new Cube[50];
     private Line3D line;
 
+    private CustomShader fragShader;
+    private CustomRawVertexShader vertShader;
+
+    private Matrix4 mvpMatrix;
+
+    private int mFrameCount = 0;
+    private Material material;
+
     public Renderer(Context context) {
         super(context);
         this.context = context;
@@ -64,8 +73,20 @@ public class Renderer extends RajawaliRenderer {
         directionalLight.setPower(10);
         getCurrentScene().addLight(directionalLight);
 
-//        Material material = new Material(new VertexShader(),new CustomShader());
-        Material material = new Material(new VertexShader(),new FragmentShader());
+
+        fragShader = new CustomShader();
+        vertShader = new CustomRawVertexShader();
+
+        mvpMatrix = new Matrix4 (new float[] {
+                1.0f,0.0f,0.0f,0.0f,
+                0.0f,1.0f,0.0f,0.0f,
+                0.0f,0.0f,1.0f,0.0f,
+                0.0f,0.0f,0.0f,1.0f
+        });
+
+        material = new Material(vertShader,new FragmentShader());
+
+//        Material material = new Material(new VertexShader(),new FragmentShader());
         material.enableLighting(true);
         material.enableTime(true);
         material.setDiffuseMethod(new DiffuseMethod.Lambert());
@@ -129,7 +150,7 @@ public class Renderer extends RajawaliRenderer {
 //        line.setDrawingMode(GLES20.GL_LINE_LOOP);
         line.setScale(0.5);
         line.setPosition(0.5, 0.5, 0.5);
-        getCurrentScene().addChild(line);
+//        getCurrentScene().addChild(line);
 
         float t_x = -2.5f;
         float t_y = -1.0f;
@@ -156,12 +177,14 @@ public class Renderer extends RajawaliRenderer {
 //            cubeArray[i] = t_cube;
 //        }
 
-        cube = new Cube(0.5f, false, false, true, false, false);
+        cube = new Cube(0.5f);
         cube.setMaterial(material);
+//        cube.setDrawingMode(GLES20.GL_LINE_STRIP);
+        getCurrentScene().addChild(cube);
+
         cube.rotate(Vector3.Axis.Y, 45.0f);
         cube.rotate(Vector3.Axis.X, -45);
-        cube.setDrawingMode(GLES20.GL_LINE_STRIP);
-        getCurrentScene().addChild(cube);
+
 //        cube = new Cube(0.5f);
 //        cube.setMaterial(material);
 ////        cube.setColor(Color.rgb(255, 255, 255));
@@ -174,14 +197,23 @@ public class Renderer extends RajawaliRenderer {
 
     @Override
      public void onRender(final long elapsedTime, final double deltaTime) {
-//        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
         GLES20.glDisable(GLES20.GL_POLYGON_OFFSET_FILL);
         super.onRender(elapsedTime, deltaTime);
-        line.rotate(Vector3.Axis.Y, 1.0);
-        line.rotate(Vector3.Axis.X, 1.0);
-        line.rotate(Vector3.Axis.Z, 1.0);
+//        line.rotate(Vector3.Axis.Y, 1.0);
+//        line.rotate(Vector3.Axis.X, 1.0);
+//        line.rotate(Vector3.Axis.Z, 1.0);
         GLES20.glEnable(GLES20.GL_POLYGON_OFFSET_FILL);
-        GLES20.glPolygonOffset(1.0f, 1.0f);
+        GLES20.glPolygonOffset(0.0f, 0.0f);
+
+//        mvpMatrix.add(new Matrix4(new float[]{
+//                0.0f,0.0f,0.0f,0.0f,
+//                0.0f,0.0f,0.0f,0.0f,
+//                0.0f,0.0f,1.0f,0.0f,
+//                0.0f,0.0f,0.0f,1.0f
+//        }));
+        material.setMVPMatrix(mvpMatrix);
+        material.setTime((float) mFrameCount++);
 
         for ( Cube t : cubeArray) {
 //            t.rotate(Vector3.Axis.Y, 1.0);
@@ -192,20 +224,21 @@ public class Renderer extends RajawaliRenderer {
 //        cube.rotate(Vector3.Axis.Y, 1.0);
 //        cube.rotate(Vector3.Axis.X, 1.0);
 //        cube.rotate(Vector3.Axis.Z, 1.0);
-//        cube.setScale(scale);
-//        if (scale > 2.0f && isDropping == false) {
-//            scale -= 0.005f;
-//            isDropping = true;
-//        } else if (scale < 1.0f && isDropping == true) {
-//            isDropping = false;
-//            scale = 1.0f;
-//        } else {
-//            if (isDropping) {
-//                scale -= 0.005f;
-//            } else {
-//                scale += 0.005f;
-//            }
-//        }
+        vertShader.ScaleZ = (float)(scale);
+
+        if (scale > 2.0f && isDropping == false) {
+            scale -= 0.005f;
+            isDropping = true;
+        } else if (scale < 1.0f && isDropping == true) {
+            isDropping = false;
+            scale = 1.0f;
+        } else {
+            if (isDropping) {
+                scale -= 0.005f;
+            } else {
+                scale += 0.005f;
+            }
+        }
 
 //        line.setScale(scale);
 //        if (scale > 2.0f && isDropping == false) {

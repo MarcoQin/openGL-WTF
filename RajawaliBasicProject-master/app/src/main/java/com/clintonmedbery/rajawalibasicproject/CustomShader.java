@@ -12,10 +12,23 @@ import org.rajawali3d.util.RawShaderLoader;
 public class CustomShader extends FragmentShader {
     private int muTextureInfluenceHandle;
 
+    private int muScaleXHandle;
+    private int muScaleYHandle;
+    private int muScaleZHandle;
+
+
+    public float ScaleZ;
+    public float ScaleX;
+    public float ScaleY;
+
     public CustomShader()
     {
         super();
         mNeedsBuild = false;
+        ScaleX = 1.0f;
+        ScaleY = 1.0f;
+        ScaleZ = 1.0f;
+
         initialize();
     }
 
@@ -35,6 +48,9 @@ public class CustomShader extends FragmentShader {
     {
         super.setLocations(programHandle);
         muTextureInfluenceHandle = getUniformLocation(programHandle, "uInfluencemyTex");
+        muScaleXHandle = getUniformLocation(programHandle, "uScaleX");
+        muScaleYHandle = getUniformLocation(programHandle, "uScaleY");
+        muScaleZHandle = getUniformLocation(programHandle, "uScaleZ");
     }
 
     @Override
@@ -42,5 +58,8 @@ public class CustomShader extends FragmentShader {
     {
         super.applyParams();
         GLES20.glUniform1f(muTextureInfluenceHandle, .5f);
+        GLES20.glUniform1f(muScaleXHandle, ScaleX);
+        GLES20.glUniform1f(muScaleYHandle, ScaleY);
+        GLES20.glUniform1f(muScaleZHandle, ScaleZ);
     }
 }
