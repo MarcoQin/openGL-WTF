@@ -2,6 +2,8 @@ package com.clintonmedbery.rajawalibasicproject;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.opengl.GLES10;
+import android.opengl.GLES20;
 import android.os.Debug;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -39,6 +41,7 @@ public class Renderer extends RajawaliRenderer {
     private boolean isDropping = false;
 
     private Cube[] cubeArray = new Cube[50];
+    private Line3D line;
 
     public Renderer(Context context) {
         super(context);
@@ -61,7 +64,8 @@ public class Renderer extends RajawaliRenderer {
         directionalLight.setPower(10);
         getCurrentScene().addLight(directionalLight);
 
-        Material material = new Material(new VertexShader(),new CustomShader());
+//        Material material = new Material(new VertexShader(),new CustomShader());
+        Material material = new Material(new VertexShader(),new FragmentShader());
         material.enableLighting(true);
         material.enableTime(true);
         material.setDiffuseMethod(new DiffuseMethod.Lambert());
@@ -88,11 +92,29 @@ public class Renderer extends RajawaliRenderer {
 //        getCurrentCamera().setZ(4.2f);
 
         Stack points = new Stack();
-        points.add(new Vector3(0, 0, 0));
-        points.add(new Vector3(1, 0, 0));
+//        points.add(new Vector3(0, 0, 0));
+//        points.add(new Vector3(1, 0, 0));
+//        points.add(new Vector3(0, 1, 0));
+//        points.add(new Vector3(-1, 1, 0));
+//        points.add(new Vector3(0, 0, 0));
+        points.add(new Vector3(-1, 1, 0));
+        points.add(new Vector3(-1, 1, -1));
+        points.add(new Vector3(0, 1, -1));
         points.add(new Vector3(0, 1, 0));
         points.add(new Vector3(-1, 1, 0));
+        points.add(new Vector3(-1, 0, 0));
         points.add(new Vector3(0, 0, 0));
+        points.add(new Vector3(0, 1, 0));
+        points.add(new Vector3(0, 1, -1));
+        points.add(new Vector3(0, 0, -1));
+        points.add(new Vector3(0, 0, 0));
+        points.add(new Vector3(-1, 0, 0));
+        points.add(new Vector3(-1, 0, -1));
+        points.add(new Vector3(0, 0, -1));
+        points.add(new Vector3(-1, 0, -1));
+        points.add(new Vector3(-1, 1, -1));
+
+
 
         int[] color_t = new int[4];
         color_t[0] = 255;
@@ -102,34 +124,44 @@ public class Renderer extends RajawaliRenderer {
 
         int color_tt = 0xffffffff;
 
-        Line3D line = new Line3D(points, 1, color_tt);
+        line = new Line3D(points, 3, color_tt);
         line.setMaterial(material);
+//        line.setDrawingMode(GLES20.GL_LINE_LOOP);
+        line.setScale(0.5);
+        line.setPosition(0.5, 0.5, 0.5);
         getCurrentScene().addChild(line);
 
         float t_x = -2.5f;
         float t_y = -1.0f;
 
-        for (int i = 0; i< 50;i++) {
-            Cube t_cube = new Cube(0.3f);
-            t_cube.setX(t_x);
-            t_cube.setY(t_y);
+//        for (int i = 0; i< 50;i++) {
+//            Cube t_cube = new Cube(0.3f);
+//            t_cube.setX(t_x);
+//            t_cube.setY(t_y);
+//
+//            if (t_x > 2.5f) {
+//                t_x = - 2.5f;
+//                t_y += 0.6f;
+//            } else {
+//                t_x += 0.6f;
+//            }
+//
+//            t_cube.setMaterial(material);
+////        cube.setColor(Color.rgb(255, 255, 255));
+//            getCurrentScene().addChild(t_cube);
+//
+//            t_cube.rotate(Vector3.Axis.Y, 45.0);
+//            t_cube.rotate(Vector3.Axis.X, -45);
+//
+//            cubeArray[i] = t_cube;
+//        }
 
-            if (t_x > 2.5f) {
-                t_x = - 2.5f;
-                t_y += 0.6f;
-            } else {
-                t_x += 0.6f;
-            }
-
-            t_cube.setMaterial(material);
-//        cube.setColor(Color.rgb(255, 255, 255));
-            getCurrentScene().addChild(t_cube);
-
-            t_cube.rotate(Vector3.Axis.Y, 45.0);
-            t_cube.rotate(Vector3.Axis.X, -45);
-
-            cubeArray[i] = t_cube;
-        }
+        cube = new Cube(0.5f, false, false, true, false, false);
+        cube.setMaterial(material);
+        cube.rotate(Vector3.Axis.Y, 45.0f);
+        cube.rotate(Vector3.Axis.X, -45);
+        cube.setDrawingMode(GLES20.GL_LINE_STRIP);
+        getCurrentScene().addChild(cube);
 //        cube = new Cube(0.5f);
 //        cube.setMaterial(material);
 ////        cube.setColor(Color.rgb(255, 255, 255));
@@ -142,7 +174,14 @@ public class Renderer extends RajawaliRenderer {
 
     @Override
      public void onRender(final long elapsedTime, final double deltaTime) {
+//        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+        GLES20.glDisable(GLES20.GL_POLYGON_OFFSET_FILL);
         super.onRender(elapsedTime, deltaTime);
+        line.rotate(Vector3.Axis.Y, 1.0);
+        line.rotate(Vector3.Axis.X, 1.0);
+        line.rotate(Vector3.Axis.Z, 1.0);
+        GLES20.glEnable(GLES20.GL_POLYGON_OFFSET_FILL);
+        GLES20.glPolygonOffset(1.0f, 1.0f);
 
         for ( Cube t : cubeArray) {
 //            t.rotate(Vector3.Axis.Y, 1.0);
@@ -167,6 +206,22 @@ public class Renderer extends RajawaliRenderer {
 //                scale += 0.005f;
 //            }
 //        }
+
+//        line.setScale(scale);
+//        if (scale > 2.0f && isDropping == false) {
+//            scale -= 0.005f;
+//            isDropping = true;
+//        } else if (scale < 1.0f && isDropping == true) {
+//            isDropping = false;
+//            scale = 1.0f;
+//        } else {
+//            if (isDropping) {
+//                scale -= 0.005f;
+//            } else {
+//                scale += 0.005f;
+//            }
+//        }
+
     }
 
 
