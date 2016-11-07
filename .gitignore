@@ -26,3 +26,13 @@ proguard/
 # Log Files
 *.log
 .DS_Store
+
+RajawaliBasicProject-master/.idea/workspace.xml
+
+*.xml
+
+RajawaliBasicProject-master/.idea/libraries/support_v4_22_0_0.xml
+
+RajawaliBasicProject-master/.idea/libraries/rajawali_1_0_186_SNAPSHOT.xml
+
+RajawaliBasicProject-master/.idea/libraries/appcompat_v7_22_0_0.xml
