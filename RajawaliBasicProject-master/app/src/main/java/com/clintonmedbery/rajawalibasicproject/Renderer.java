@@ -177,16 +177,18 @@ public class Renderer extends RajawaliRenderer {
 //            cubeArray[i] = t_cube;
 //        }
 
-        cube = new Cube(0.2f);
+        cube = new Cube(0.1f);
         cube.setMaterial(material);
-        vertShader.Width = 0.2f;
+        vertShader.Width = 0.1f;
+        vertShader.ScaleMode = 2;
 
-//        cube.setDrawingMode(GLES20.GL_LINE_STRIP);
+        cube.setDrawingMode(GLES20.GL_TRIANGLES);
         getCurrentScene().addChild(cube);
 
         cube.rotate(Vector3.Axis.Y, 45.0);
         cube.rotate(Vector3.Axis.X, -22.5);
 
+        cube.setY(0.2);
 //        cube = new Cube(0.5f);
 //        cube.setMaterial(material);
 ////        cube.setColor(Color.rgb(255, 255, 255));
@@ -199,7 +201,7 @@ public class Renderer extends RajawaliRenderer {
 
     @Override
      public void onRender(final long elapsedTime, final double deltaTime) {
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+//        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
         GLES20.glDisable(GLES20.GL_POLYGON_OFFSET_FILL);
         super.onRender(elapsedTime, deltaTime);
 //        line.rotate(Vector3.Axis.Y, 1.0);
@@ -226,11 +228,11 @@ public class Renderer extends RajawaliRenderer {
 //        cube.rotate(Vector3.Axis.Y, 1.0);
 //        cube.rotate(Vector3.Axis.X, 1.0);
 //        cube.rotate(Vector3.Axis.Z, 1.0);
-        vertShader.ScaleZ = (float)(scale);
-        vertShader.ScaleX = (float)(scale);
+//        vertShader.ScaleZ = (float)(scale);
+//        vertShader.ScaleX = (float)(scale);
         vertShader.ScaleY = (float)(scale);
 
-        if (scale > 2.0f && isDropping == false) {
+        if (scale > 1.8f && isDropping == false) {
             scale -= 0.009f;
             isDropping = true;
         } else if (scale < 1.0f && isDropping == true) {

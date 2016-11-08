@@ -12,11 +12,13 @@ public class CustomRawVertexShader extends VertexShader {
 	private int muScaleYHandle;
 	private int muScaleZHandle;
 	private int muWidthHandle;
+	private int muScaleModeHandle;
 
 	public float ScaleZ;
 	public float ScaleX;
 	public float ScaleY;
 	public float Width;
+	public int ScaleMode;
 
 	public CustomRawVertexShader()
 	{
@@ -28,13 +30,15 @@ public class CustomRawVertexShader extends VertexShader {
 		ScaleY = 1.0f;
 		ScaleZ = 1.0f;
 
+		ScaleMode = 1;
+
 		initialize();
 	}
 
 	@Override
 	public void initialize()
 	{
-		mShaderString = RawShaderLoader.fetch(R.raw.custom_vertex_shader);
+		mShaderString = RawShaderLoader.fetch(R.raw.littleman_vertex_shader);
 	}
 
 	@Override
@@ -50,7 +54,7 @@ public class CustomRawVertexShader extends VertexShader {
 		muScaleYHandle = getUniformLocation(programHandle, "uScaleY");
 		muScaleZHandle = getUniformLocation(programHandle, "uScaleZ");
 		muWidthHandle = getUniformLocation(programHandle, "uWidth");
-
+		muScaleModeHandle = getUniformLocation(programHandle, "uScaleMode");
 	}
 
 	@Override
@@ -61,5 +65,6 @@ public class CustomRawVertexShader extends VertexShader {
 		GLES20.glUniform1f(muScaleYHandle, ScaleY);
 		GLES20.glUniform1f(muScaleZHandle, ScaleZ);
 		GLES20.glUniform1f(muWidthHandle, Width);
+		GLES20.glUniform1i(muScaleModeHandle, ScaleMode);
 	}
 }

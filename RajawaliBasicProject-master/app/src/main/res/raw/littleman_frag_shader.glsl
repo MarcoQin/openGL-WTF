@@ -1,4 +1,4 @@
-precision highp float;
+precision mediump float;
 
 const float GT = 1.0;
 const float LT = 0.0;
@@ -21,6 +21,7 @@ varying float vScaleX;
 varying float vScaleY;
 
 varying float vWidth;
+varying float vScaleMode;
 
 void main() {
 //    vec4 newColor = vec4(vTimeVec.x,vTimeVec.y,vTimeVec.z, 1.0);
@@ -29,14 +30,22 @@ void main() {
 
     float lineWidth = 0.004;
 
-    float leftX = - (vWidth / 2.0) + lineWidth;
-    float rightX = (vWidth / 2.0) - lineWidth / 2.0;
+    float leftX = - (vWidth * vScaleX / 2.0) + lineWidth;
+    float rightX = (vWidth * vScaleX / 2.0) - lineWidth / 2.0;
 
-    float bottomY = lineWidth;
-    float topY = vWidth - lineWidth / 2.0;
+    float bottomY;
+    float topY;
 
-    float backZ = - (vWidth / 2.0) + lineWidth;
-    float frontZ = (vWidth / 2.0) - lineWidth / 2.0;
+    if (vScaleMode == 1.0) {
+        bottomY = lineWidth;
+        topY = vWidth * vScaleY - lineWidth / 2.0;
+    } else {
+        bottomY =  - vWidth * vScaleY + lineWidth;
+        topY = - lineWidth / 2.0;
+    }
+
+    float backZ = - (vWidth * vScaleZ / 2.0) + lineWidth;
+    float frontZ = (vWidth * vScaleZ / 2.0) - lineWidth / 2.0;
 
     float rX = smoothstep(leftX,rightX,vTimeVec.x);
     float rZ = smoothstep(backZ,frontZ,vTimeVec.z);

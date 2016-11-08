@@ -35,7 +35,7 @@ public class CustomShader extends FragmentShader {
     @Override
     public void initialize()
     {
-        mShaderString = RawShaderLoader.fetch(R.raw.custom_frag_shader);
+        mShaderString = RawShaderLoader.fetch(R.raw.littleman_frag_shader);
     }
 
     @Override
