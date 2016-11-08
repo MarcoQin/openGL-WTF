@@ -48,9 +48,6 @@ public class CustomShader extends FragmentShader {
     {
         super.setLocations(programHandle);
         muTextureInfluenceHandle = getUniformLocation(programHandle, "uInfluencemyTex");
-        muScaleXHandle = getUniformLocation(programHandle, "uScaleX");
-        muScaleYHandle = getUniformLocation(programHandle, "uScaleY");
-        muScaleZHandle = getUniformLocation(programHandle, "uScaleZ");
     }
 
     @Override
@@ -58,8 +55,5 @@ public class CustomShader extends FragmentShader {
     {
         super.applyParams();
         GLES20.glUniform1f(muTextureInfluenceHandle, .5f);
-        GLES20.glUniform1f(muScaleXHandle, ScaleX);
-        GLES20.glUniform1f(muScaleYHandle, ScaleY);
-        GLES20.glUniform1f(muScaleZHandle, ScaleZ);
     }
 }

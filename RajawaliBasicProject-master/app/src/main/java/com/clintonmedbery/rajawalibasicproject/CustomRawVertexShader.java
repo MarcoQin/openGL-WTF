@@ -11,11 +11,12 @@ public class CustomRawVertexShader extends VertexShader {
 	private int muScaleXHandle;
 	private int muScaleYHandle;
 	private int muScaleZHandle;
-
+	private int muWidthHandle;
 
 	public float ScaleZ;
 	public float ScaleX;
 	public float ScaleY;
+	public float Width;
 
 	public CustomRawVertexShader()
 	{
@@ -48,6 +49,8 @@ public class CustomRawVertexShader extends VertexShader {
 		muScaleXHandle = getUniformLocation(programHandle, "uScaleX");
 		muScaleYHandle = getUniformLocation(programHandle, "uScaleY");
 		muScaleZHandle = getUniformLocation(programHandle, "uScaleZ");
+		muWidthHandle = getUniformLocation(programHandle, "uWidth");
+
 	}
 
 	@Override
@@ -57,5 +60,6 @@ public class CustomRawVertexShader extends VertexShader {
 		GLES20.glUniform1f(muScaleXHandle, ScaleX);
 		GLES20.glUniform1f(muScaleYHandle, ScaleY);
 		GLES20.glUniform1f(muScaleZHandle, ScaleZ);
+		GLES20.glUniform1f(muWidthHandle, Width);
 	}
 }

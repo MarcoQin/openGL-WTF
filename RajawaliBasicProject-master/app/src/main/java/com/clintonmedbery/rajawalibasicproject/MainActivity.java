@@ -22,8 +22,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         final RajawaliSurfaceView surface = new RajawaliSurfaceView(this);
-        surface.setFrameRate(50.0);
-        surface.setRenderMode(IRajawaliSurface.RENDERMODE_WHEN_DIRTY);
+        surface.setFrameRate(60.0);
+        surface.setRenderMode(IRajawaliSurface.RENDERMODE_CONTINUOUSLY);
         surface.setMultisamplingEnabled(true);
 
         // Add mSurface to your root view

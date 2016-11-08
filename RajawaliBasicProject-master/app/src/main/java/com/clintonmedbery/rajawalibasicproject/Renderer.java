@@ -64,7 +64,7 @@ public class Renderer extends RajawaliRenderer {
         OrthographicCamera orthoCam = new OrthographicCamera();
         orthoCam.setLookAt(0, 0, 0);
         orthoCam.enableLookAt();
-        orthoCam.setZoom(2);
+        orthoCam.setZoom(1);
 
         getCurrentScene().switchCamera(orthoCam);
 
@@ -81,16 +81,16 @@ public class Renderer extends RajawaliRenderer {
                 1.0f,0.0f,0.0f,0.0f,
                 0.0f,1.0f,0.0f,0.0f,
                 0.0f,0.0f,1.0f,0.0f,
-                0.0f,0.0f,0.0f,1.0f
+                0.0f,0.0f,0.0f,0.0f
         });
 
-        material = new Material(vertShader,new FragmentShader());
+        material = new Material(vertShader,fragShader);
 
 //        Material material = new Material(new VertexShader(),new FragmentShader());
         material.enableLighting(true);
         material.enableTime(true);
-        material.setDiffuseMethod(new DiffuseMethod.Lambert());
-        material.setColorInfluence(1.0f);
+//        material.setDiffuseMethod(new DiffuseMethod.Lambert());
+        material.setColorInfluence(.5f);
 
         float[] color = new float[4];
         color[0] = 1.0f;
@@ -98,10 +98,10 @@ public class Renderer extends RajawaliRenderer {
         color[2] = 1.0f;
         color[3] = 1.0f;
 
-        material.setColor(Color.rgb(255,0,0));
+//        material.setColor(Color.rgb(255,0,0));
 //        Texture earthTexture = new Texture("Earth", R.drawable.earthtruecolor_nasa_big);
 //        try{
-//            material.addTexture(earthTexture);
+//            material.addTexture(earthTexture);'''''''''''''999998\ed]9reeeeeeeeed
 //
 //        } catch (ATexture.TextureException error){
 //            Log.d("DEBUG", "TEXTURE ERROR");
@@ -112,48 +112,48 @@ public class Renderer extends RajawaliRenderer {
 //        getCurrentScene().addChild(earthSphere);
 //        getCurrentCamera().setZ(4.2f);
 
-        Stack points = new Stack();
-//        points.add(new Vector3(0, 0, 0));
-//        points.add(new Vector3(1, 0, 0));
+//        Stack points = new Stack();
+////        points.add(new Vector3(0, 0, 0));
+////        points.add(new Vector3(1, 0, 0));
+////        points.add(new Vector3(0, 1, 0));
+////        points.add(new Vector3(-1, 1, 0));
+////        points.add(new Vector3(0, 0, 0));
+//        points.add(new Vector3(-1, 1, 0));
+//        points.add(new Vector3(-1, 1, -1));
+//        points.add(new Vector3(0, 1, -1));
 //        points.add(new Vector3(0, 1, 0));
 //        points.add(new Vector3(-1, 1, 0));
+//        points.add(new Vector3(-1, 0, 0));
 //        points.add(new Vector3(0, 0, 0));
-        points.add(new Vector3(-1, 1, 0));
-        points.add(new Vector3(-1, 1, -1));
-        points.add(new Vector3(0, 1, -1));
-        points.add(new Vector3(0, 1, 0));
-        points.add(new Vector3(-1, 1, 0));
-        points.add(new Vector3(-1, 0, 0));
-        points.add(new Vector3(0, 0, 0));
-        points.add(new Vector3(0, 1, 0));
-        points.add(new Vector3(0, 1, -1));
-        points.add(new Vector3(0, 0, -1));
-        points.add(new Vector3(0, 0, 0));
-        points.add(new Vector3(-1, 0, 0));
-        points.add(new Vector3(-1, 0, -1));
-        points.add(new Vector3(0, 0, -1));
-        points.add(new Vector3(-1, 0, -1));
-        points.add(new Vector3(-1, 1, -1));
-
-
-
-        int[] color_t = new int[4];
-        color_t[0] = 255;
-        color_t[1] = 255;
-        color_t[2] = 255;
-        color_t[3] = 255;
-
-        int color_tt = 0xffffffff;
-
-        line = new Line3D(points, 3, color_tt);
-        line.setMaterial(material);
-//        line.setDrawingMode(GLES20.GL_LINE_LOOP);
-        line.setScale(0.5);
-        line.setPosition(0.5, 0.5, 0.5);
-//        getCurrentScene().addChild(line);
-
-        float t_x = -2.5f;
-        float t_y = -1.0f;
+//        points.add(new Vector3(0, 1, 0));
+//        points.add(new Vector3(0, 1, -1));
+//        points.add(new Vector3(0, 0, -1));
+//        points.add(new Vector3(0, 0, 0));
+//        points.add(new Vector3(-1, 0, 0));
+//        points.add(new Vector3(-1, 0, -1));
+//        points.add(new Vector3(0, 0, -1));
+//        points.add(new Vector3(-1, 0, -1));
+//        points.add(new Vector3(-1, 1, -1));
+//
+//
+//
+//        int[] color_t = new int[4];
+//        color_t[0] = 255;
+//        color_t[1] = 255;
+//        color_t[2] = 255;
+//        color_t[3] = 255;
+//
+//        int color_tt = 0xffffffff;
+//
+//        line = new Line3D(points, 3, color_tt);
+//        line.setMaterial(material);
+////        line.setDrawingMode(GLES20.GL_LINE_LOOP);
+//        line.setScale(0.5);
+//        line.setPosition(0.5, 0.5, 0.5);
+////        getCurrentScene().addChild(line);
+//
+//        float t_x = -2.5f;
+//        float t_y = -1.0f;
 
 //        for (int i = 0; i< 50;i++) {
 //            Cube t_cube = new Cube(0.3f);
@@ -177,13 +177,15 @@ public class Renderer extends RajawaliRenderer {
 //            cubeArray[i] = t_cube;
 //        }
 
-        cube = new Cube(0.5f);
+        cube = new Cube(0.2f);
         cube.setMaterial(material);
+        vertShader.Width = 0.2f;
+
 //        cube.setDrawingMode(GLES20.GL_LINE_STRIP);
         getCurrentScene().addChild(cube);
 
-        cube.rotate(Vector3.Axis.Y, 45.0f);
-        cube.rotate(Vector3.Axis.X, -45);
+        cube.rotate(Vector3.Axis.Y, 45.0);
+        cube.rotate(Vector3.Axis.X, -22.5);
 
 //        cube = new Cube(0.5f);
 //        cube.setMaterial(material);
@@ -212,31 +214,33 @@ public class Renderer extends RajawaliRenderer {
 //                0.0f,0.0f,1.0f,0.0f,
 //                0.0f,0.0f,0.0f,1.0f
 //        }));
-        material.setMVPMatrix(mvpMatrix);
+//        material.setMVPMatrix(mvpMatrix);
         material.setTime((float) mFrameCount++);
+        material.applyParams();
 
         for ( Cube t : cubeArray) {
 //            t.rotate(Vector3.Axis.Y, 1.0);
 //            t.rotate(Vector3.Axis.X, 1.0);
 //            t.rotate(Vector3.Axis.Z, 1.0);
         }
-//        earthSphere.rotate(Vector3.Axis.Y, 1.0);
 //        cube.rotate(Vector3.Axis.Y, 1.0);
 //        cube.rotate(Vector3.Axis.X, 1.0);
 //        cube.rotate(Vector3.Axis.Z, 1.0);
         vertShader.ScaleZ = (float)(scale);
+        vertShader.ScaleX = (float)(scale);
+        vertShader.ScaleY = (float)(scale);
 
         if (scale > 2.0f && isDropping == false) {
-            scale -= 0.005f;
+            scale -= 0.009f;
             isDropping = true;
         } else if (scale < 1.0f && isDropping == true) {
             isDropping = false;
             scale = 1.0f;
         } else {
             if (isDropping) {
-                scale -= 0.005f;
+                scale -= 0.009f;
             } else {
-                scale += 0.005f;
+                scale += 0.009f;
             }
         }
 
