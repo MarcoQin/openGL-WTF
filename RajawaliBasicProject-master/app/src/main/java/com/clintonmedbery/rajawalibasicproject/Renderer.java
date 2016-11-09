@@ -51,6 +51,7 @@ public class Renderer extends RajawaliRenderer {
 
     private int mFrameCount = 0;
     private Material material;
+    private OrthographicCamera orthoCam;
 
     public Renderer(Context context) {
         super(context);
@@ -61,7 +62,7 @@ public class Renderer extends RajawaliRenderer {
 
     public void initScene(){
 
-        OrthographicCamera orthoCam = new OrthographicCamera();
+        orthoCam = new OrthographicCamera();
         orthoCam.setLookAt(0, 0, 0);
         orthoCam.enableLookAt();
         orthoCam.setZoom(1);
@@ -177,9 +178,10 @@ public class Renderer extends RajawaliRenderer {
 //            cubeArray[i] = t_cube;
 //        }
 
-        cube = new Cube(0.1f);
+        float size = 1f;
+        cube = new Cube(size);
         cube.setMaterial(material);
-        vertShader.Width = 0.1f;
+        vertShader.Width = size;
         vertShader.ScaleMode = 2;
 
         cube.setDrawingMode(GLES20.GL_TRIANGLES);
@@ -225,7 +227,8 @@ public class Renderer extends RajawaliRenderer {
 //            t.rotate(Vector3.Axis.X, 1.0);
 //            t.rotate(Vector3.Axis.Z, 1.0);
         }
-//        cube.rotate(Vector3.Axis.Y, 1.0);
+//        orthoCam.rotate(Vector3.Axis.Y, 1.0);
+        cube.rotate(Vector3.Axis.Y, 1.0);
 //        cube.rotate(Vector3.Axis.X, 1.0);
 //        cube.rotate(Vector3.Axis.Z, 1.0);
 //        vertShader.ScaleZ = (float)(scale);
