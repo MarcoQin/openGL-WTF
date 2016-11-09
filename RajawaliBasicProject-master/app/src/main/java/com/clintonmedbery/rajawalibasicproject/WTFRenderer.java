@@ -7,8 +7,11 @@ import android.view.MotionEvent;
 
 import org.rajawali3d.OrthographicCamera;
 import org.rajawali3d.lights.DirectionalLight;
+import org.rajawali3d.materials.Material;
 import org.rajawali3d.materials.methods.DiffuseMethod;
+import org.rajawali3d.materials.shaders.VertexShader;
 import org.rajawali3d.math.Matrix4;
+import org.rajawali3d.primitives.Plane;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.primitives.Cube;
 import org.rajawali3d.primitives.Line3D;
@@ -44,6 +47,8 @@ public class WTFRenderer extends RajawaliRenderer {
 
     private WTFToy toy;
 
+    private Line3D l2;
+
     public WTFRenderer(Context context) {
         super(context);
         this.context = context;
@@ -54,10 +59,12 @@ public class WTFRenderer extends RajawaliRenderer {
     public void initScene(){
 
         OrthographicCamera orthoCam = new OrthographicCamera();
-        orthoCam.setLookAt(-1.5, -1.5, -1.5);
         orthoCam.enableLookAt();
+        orthoCam.setLookAt(-1.5, -0.5, -1.5);
+//        orthoCam.setLookAt(0,0,0);
+//        orthoCam.setLookAt(0,-0.5,0);
         orthoCam.setZoom(2);
-        orthoCam.setPosition(2, 2, 2);
+        orthoCam.setPosition(2, 1.5, 2);
 
         getCurrentScene().switchCamera(orthoCam);
 
@@ -134,6 +141,37 @@ public class WTFRenderer extends RajawaliRenderer {
 
         toy = new WTFToy();
         toy.addToScene(getCurrentScene());
+        toy.StartCircleRotate();
+
+
+        WTFFragmentShaderwwwwww fg = new WTFFragmentShaderwwwwww();
+        Material mtr = new Material(new VertexShader(), fg);
+        Plane pl = new Plane(3, 3, 1, 1);
+        pl.setDoubleSided(true);
+//        pl.setMaterial(new Material());
+        mtr.enableLighting(true);
+        mtr.enableTime(true);
+        mtr.setDiffuseMethod(new DiffuseMethod.Lambert());
+        mtr.setColorInfluence(1.0f);
+        pl.setMaterial(mtr);
+        pl.setPosition(0, -0.3, 0);
+        pl.rotate(Vector3.Axis.X, -90);
+        getCurrentScene().addChild(pl);
+
+        Stack st = new Stack();
+        st.add(new Vector3(0, -0.5, 0));
+        st.add(new Vector3(0, 1, 0));
+        Line3D l1 = new Line3D(st, 3, color_tt);
+        l1.setMaterial(new Material());
+        getCurrentScene().addChild(l1);
+
+        Stack lt = new Stack();
+        lt.add(new Vector3(0, -0.28, 0));
+        lt.add(new Vector3(1.5, -0.28, 0));
+        l2 = new Line3D(lt, 3, color_tt);
+        l2.setMaterial(new Material());
+        getCurrentScene().addChild(l2);
+
     }
 
 
@@ -142,19 +180,22 @@ public class WTFRenderer extends RajawaliRenderer {
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
         GLES20.glDisable(GLES20.GL_POLYGON_OFFSET_FILL);
         super.onRender(elapsedTime, deltaTime);
-        line.rotate(Vector3.Axis.Y, 1.0);
-        line.rotate(Vector3.Axis.X, 1.0);
-        line.rotate(Vector3.Axis.Z, 1.0);
-        GLES20.glEnable(GLES20.GL_POLYGON_OFFSET_FILL);
-        GLES20.glPolygonOffset(0.0f, 0.0f);
+//        line.rotate(Vector3.Axis.Y, 1.0);
+//        line.rotate(Vector3.Axis.X, 1.0);
+//        line.rotate(Vector3.Axis.Z, 1.0);
+        GLES20.glPolygonOffset(1.0f, 1.0f);
 
 //        material.setMVPMatrix(mvpMatrix);
 //        material.setTime(mTime);
         mTime += 0.007f;
-
+//        cube.rotateAround(new Vector3(0, 1, 0), 10, true);
+        toy.toyRotatCircle();
+        l2.rotateAround(new Vector3(0, 1, 0), 1, true);
 
 //        cube.setScale(scale, scale, scale);
         toy.setHeadScale(scale);
+//        toy.setScale(scale);
+//        toy.headRotate();
         float step = 0.01f;
         if (scale > 2.0f && isDropping == false) {
             scale -= step;

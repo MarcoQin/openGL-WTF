@@ -1,55 +1,82 @@
 precision mediump float;
 
+const float GT = 1.0;
+const float LT = 0.0;
+
+
 uniform float uColorInfluence;
 uniform float uTime;
 uniform float uInfluencemyTex;
 uniform float scale;
-uniform vec4  uCustomColor;
+uniform vec4 uCustomColor;
 uniform sampler2D myTex;
-uniform float uscalex;
-//uniform float uscaley;
-//uniform float uscalez;
+
+uniform vec4 uColor;
 
 varying vec2 vTextureCoord;
 varying vec4 vColor;
+varying vec3 vTimeVec;
+
+varying float vScaleZ;
+varying float vScaleX;
+varying float vScaleY;
+
+varying float vWidth;
+varying float vScaleMode;
 
 void main() {
-        vec4 newColor = vec4(0.0, 0.0, 0.0, 1.0);
-//        float x = min(vTextureCoord.s, 1.0 - vTextureCoord.s);
-//        float y = min(vTextureCoord.t, 1.0 - vTextureCoord.t);
-//
-//        if (x < 0.01) {
-//            newColor.g = 1.0;
-//            newColor.r = 1.0;
-//            newColor.b = 1.0;
-//        }
-//
-//        if (y < 0.01) {
-//            newColor.g = 1.0;
-//            newColor.r = 1.0;
-//            newColor.b = 1.0;
-//        }
-//        gl_FragColor = newColor;
 
+    vec4 newColor = vec4(0.0, 0.0, 0.0, 1.0);
 
-                float x = vTextureCoord.x;
-                float y = vTextureCoord.y;
-                float lineThick = 0.02;
-//                float scale = uscalex;
-//                if (scale < 1.0){
-//                    scale += 1.0;
-//                } else if (scale > 1.0) {
-//                    scale -= 1.0;
-//                 }
+    float lineWidth = 0.008;
+//    float lineWidth = 0.01;
 
-//                lineThick *= scale;
-                if (x <= lineThick || y <= lineThick || x >= 1.0- lineThick || y >= 1.0-lineThick) {
-                    newColor.g = 0.62;
-                    newColor.r = 0.9;
-                    newColor.b = 0.17;
-        //            newColor.a = 0;
-                } else {
-                    newColor.a = 0.5;
-                 }
-                 gl_FragColor = newColor;
+    float leftX = -(vWidth * vScaleX / 2.0) + lineWidth;
+    float rightX = (vWidth * vScaleX / 2.0) - lineWidth / 2.0;
+
+    float bottomY;
+    float topY;
+
+    if (vScaleMode == 1.0) {
+        bottomY = lineWidth;
+        topY = vWidth * vScaleY - lineWidth / 2.0;
+    } else {
+        bottomY = -vWidth * vScaleY + lineWidth;
+        topY = -lineWidth / 2.0;
+    }
+
+    float backZ = -(vWidth * vScaleZ / 2.0) + lineWidth;
+    float frontZ = (vWidth * vScaleZ / 2.0) - lineWidth / 2.0;
+
+    float rX = smoothstep(leftX, rightX, vTimeVec.x);
+    float rZ = smoothstep(backZ, frontZ, vTimeVec.z);
+    float rY = smoothstep(bottomY, topY, vTimeVec.y);
+
+    if (
+        (rX == GT && rY == GT) ||
+        (rX == GT && rZ == GT) ||
+        (rY == GT && rZ == GT) ||
+
+        (rX == LT && rY == LT) ||
+        (rX == LT && rZ == LT) ||
+        (rY == LT && rZ == LT) ||
+
+        (rX == GT && rY == LT) ||
+        (rX == GT && rZ == LT) ||
+        (rY == GT && rZ == LT) ||
+
+        (rX == LT && rY == GT) ||
+        (rX == LT && rZ == GT) ||
+        (rY == LT && rZ == GT)
+
+    ) {
+//        newColor.g = 0.659;
+        newColor.g = uColor.y;
+//        newColor.r = 0.976;
+        newColor.r = uColor.x;
+//        newColor.b = 0.192;
+        newColor.b = uColor.z;
+    }
+
+    gl_FragColor = newColor;
 }

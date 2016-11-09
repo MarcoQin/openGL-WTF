@@ -32,7 +32,7 @@ public class WTFMaterial extends Material {
         return (WTFVertexShader) this.mCustomVertexShader;
     }
 
-    public FragmentShader getFragmentShader() {
-        return this.mCustomFragmentShader;
+    public WTFFragmentShader getFragmentShader() {
+        return (WTFFragmentShader)this.mCustomFragmentShader;
     }
 }
