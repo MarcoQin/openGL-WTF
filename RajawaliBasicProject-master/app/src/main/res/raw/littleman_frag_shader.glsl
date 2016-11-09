@@ -51,12 +51,27 @@ void main() {
     float rZ = smoothstep(backZ,frontZ,vTimeVec.z);
     float rY = smoothstep(bottomY,topY,vTimeVec.y);
 
-    if ( (rX == LT) ||
+//    if ( (rX == LT) ||
+    if (
     (rX == GT && rY == GT) ||
     (rX == GT && rZ == GT) ||
     (rY == GT && rZ == GT) ||
-    (rZ == LT) ||
-    (rY == LT)) {
+
+    (rX == LT && rY == LT) ||
+        (rX == LT && rZ == LT) ||
+        (rY == LT && rZ == LT) ||
+
+        (rX == GT && rY == LT) ||
+            (rX == GT && rZ == LT) ||
+            (rY == GT && rZ == LT) ||
+
+            (rX == LT && rY == GT) ||
+                        (rX == LT && rZ == GT) ||
+                        (rY == LT && rZ == GT)
+
+//    (rZ == LT) ||
+//    (rY == LT)) {
+       ){
          newColor.g = 0.659;
          newColor.r = 0.976;
          newColor.b = 0.192;
