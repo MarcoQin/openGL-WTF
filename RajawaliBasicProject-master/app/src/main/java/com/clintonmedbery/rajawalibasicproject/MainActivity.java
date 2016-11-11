@@ -15,10 +15,7 @@ import org.rajawali3d.surface.RajawaliSurfaceView;
 public class MainActivity extends ActionBarActivity {
 
 //    Renderer renderer;
-//    WTFRenderer renderer;
-//    WTFRendererHOA renderer;
-    WTFRendererHOA1 renderer;
-//    WTFRendererHOA2 renderer;
+    WTFRenderer renderer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +31,7 @@ public class MainActivity extends ActionBarActivity {
         addContentView(surface, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT));
 
 //        renderer = new Renderer(this);
-//        renderer = new WTFRenderer(this);
-//        renderer = new WTFRendererHOA(this);
-        renderer = new WTFRendererHOA1(this);
-//        renderer = new WTFRendererHOA2(this);
+        renderer = new WTFRenderer(this);
         surface.setSurfaceRenderer(renderer);
     }
 
